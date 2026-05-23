@@ -1,4 +1,4 @@
-// Dubizzle Snipe Pro - Background Service Worker (Manifest V3 - v1.0)
+// DubiSnipe - Background Service Worker (Manifest V3 - v1.0)
 
 let lastChimePlay = 0;
 
@@ -38,9 +38,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       chrome.notifications.create(`deals-${Date.now()}`, {
         type: 'basic',
         iconUrl: 'icon.png',
-        title: '🔥 New Dubizzle UAE Deals Found!',
+        title: '🔥 New DubiSnipe Deals Found!',
         message: notificationMessage,
-        contextMessage: 'Dubizzle Snipe Pro',
+        contextMessage: 'DubiSnipe',
         buttons: [
           { title: 'Open Latest Deal' }
         ],

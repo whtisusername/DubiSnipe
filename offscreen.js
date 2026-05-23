@@ -1,4 +1,4 @@
-// Dubizzle Snipe Pro - Offscreen Audio Helper Script (Manifest V3)
+// DubiSnipe - Offscreen Audio Helper Script (Manifest V3)
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.target !== 'offscreen') return;

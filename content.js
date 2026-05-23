@@ -1,4 +1,4 @@
-// Dubizzle Snipe Pro — Foreground Scanner Content Script (v1.0)
+// DubiSnipe — Foreground Scanner Content Script (v1.0)
 // This script runs on all dubizzle pages, but only activates if sniper=true is in the URL.
 
 (function () {
@@ -9,7 +9,7 @@
 
   if (!isSniperActive) return;
 
-  console.log('🎯 Dubizzle Snipe Pro V1.0: Scanner active on this tab.');
+  console.log('🎯 DubiSnipe V1.0: Scanner active on this tab.');
   document.title = "🎯 [SNIPING] " + document.title;
 
   // Let the page render a bit before scraping
@@ -119,7 +119,7 @@
     // 1. Handle WAF Captcha
     if (isWafPage()) {
       console.warn('⚠️ Captcha/WAF check detected. Please solve the Captcha in this tab to resume scanning.');
-      document.title = "⚠️ Solve Captcha! - Snipe Pro";
+      document.title = "⚠️ Solve Captcha! - DubiSnipe";
       
       // Try again in 5 seconds to see if WAF is solved
       setTimeout(scrapeAndEvaluate, 5000);
@@ -172,7 +172,7 @@
         deals: foundMatches
       });
       
-      document.title = "🎉 DEALS FOUND! - Snipe Pro";
+      document.title = "🎉 DEALS FOUND! - DubiSnipe";
     }
 
     // Continue reload loop every 30 seconds
