@@ -121,10 +121,16 @@
       console.warn('⚠️ Captcha/WAF check detected. Please solve the Captcha in this tab to resume scanning.');
       document.title = "⚠️ Solve Captcha! - DubiSnipe";
       
+      // Trigger WAF challenge action to restore the window
+      chrome.runtime.sendMessage({ action: 'wafChallenge' });
+      
       // Try again in 5 seconds to see if WAF is solved
       setTimeout(scrapeAndEvaluate, 5000);
       return;
     }
+
+    // Since WAF is solved/passed, notify background to minimize back to Dock
+    chrome.runtime.sendMessage({ action: 'wafSolved' });
 
     // 2. Load settings
     const settings = await chrome.storage.local.get(['keyword', 'minPrice', 'maxPrice', 'notifiedIds']);

@@ -6,10 +6,22 @@
 
 ---
 
-## ✨ Features
+## ✨ Features & Architecture Modes
 
-*   🚀 **Zero-Disturbance Background Scanning**: Opens a single standard tab silently in the background (`active: false`) which reloads every 30 seconds. Chrome treats it as an active tab and never puts it to sleep, ensuring continuous scanning without interrupting your work.
-*   🛡️ **Smart Captcha/WAF Handling**: If Dubizzle triggers a security check, DubiSnipe pauses scanning and renames the tab to `⚠️ Solve Captcha! - DubiSnipe`. You can click on the tab, solve it in 5 seconds, and let it automatically go back to silent scanning.
+DubiSnipe is designed with two release flavors depending on how you prefer to handle Chrome window management:
+
+### 🌟 V1.1 (Latest / `main` branch) — Native Minimized Window & Auto-Sliding WAF Captcha
+*   🚀 **Native Minimized Background Window**: On clicking **Start**, DubiSnipe launches a native, isolated browser window in a minimized state. It lives quietly in your Dock/Taskbar, completely out of your focus and sight.
+*   🛡️ **Auto-Sliding WAF Captcha handling**: If Dubizzle triggers an Imperva WAF challenge, DubiSnipe detects it instantly, restores the window back to active screen view `(100, 100)`, and alerts you to solve the Captcha. Once you solve it, the window **automatically slides back down** and minimizes into the Dock to continue scanning!
+*   ⚡ **Zero-Suspension Throttling Bypass**: Even when minimized, the scanner page forces a reload every 30 seconds, keeping the tab constantly active and avoiding background service suspension.
+
+### 🍃 V1.0 (Stable / `v1.0.0-stable` branch) — Standard Inactive Tab Scanner
+*   🪶 **Standard Background Tab Scraper**: Opens a standard, inactive tab in your active browser window (`active: false`) which reloads every 30 seconds. Extremely simple, lightweight, and robust.
+*   🧩 **Manual Captcha Resolution**: If a Captcha occurs, you simply click on the background tab in your active browser window, solve it in 5 seconds, and let it go back to silent background scanning.
+
+---
+
+## 💎 Core Capabilities (Both Versions)
 *   🔍 **Native Server-Side Price Filtering**: Automatically translates your search bounds into Dubizzle's native query syntax (`&price__gte=` and `&price__lte=`). This forces the server to do the heavy lifting, loading pages faster and drastically reducing Captcha challenges.
 *   💸 **Strict Price Parsing (No Installment False Positives)**: Uses a global regex context-aware inspector to parse card text. It checks a 30-character surrounding window for `/mo`, `finance`, or `installment` keywords to ignore monthly installments and capture only the real purchase price.
 *   🔊 **Custom Sound Alerts**: Plays your custom sound alert (`task_completed_sound_#2-1779533040830.mp3`) using a programmatic Chrome Offscreen context. If the file is ever missing, it falls back to a synthesized crystal chime.
