@@ -38,7 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
     'minPrice',
     'maxPrice',
     'foundDeals',
-    'activeTabId'
+    'activeTabId',
+    'activeWindowId'
   ], (settings) => {
     elCustomUrl.value = settings.customUrl || '';
     elKeyword.value = settings.keyword || '';
@@ -47,8 +48,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderDeals(settings.foundDeals || []);
 
-    // Check active state of background tab safely using chrome.tabs.get
-    if (settings.activeTabId) {
+    // Check active state of background tab safely using chrome.windows.get or chrome.tabs.get
+    if (settings.activeWindowId) {
+      chrome.windows.get(settings.activeWindowId, (win) => {
+        if (!chrome.runtime.lastError && win) {
+          showStopButton();
+        } else if (settings.activeTabId) {
+          chrome.tabs.get(settings.activeTabId, (tab) => {
+            if (!chrome.runtime.lastError && tab) {
+              showStopButton();
+            } else {
+              showStartButton();
+              chrome.storage.local.set({ activeTabId: null, activeWindowId: null });
+            }
+          });
+        } else {
+          showStartButton();
+          chrome.storage.local.set({ activeTabId: null, activeWindowId: null });
+        }
+      });
+    } else if (settings.activeTabId) {
       chrome.tabs.get(settings.activeTabId, (tab) => {
         if (!chrome.runtime.lastError && tab) {
           showStopButton();
@@ -107,37 +126,62 @@ document.addEventListener('DOMContentLoaded', () => {
         targetUrl += `&sniper=true`;
       }
 
-      // Launch standard active scanning tab
-      chrome.tabs.create({
+      // Launch native minimized scanner window
+      chrome.windows.create({
         url: targetUrl,
-        active: false // Opens in background of current window to avoid disturbing you
-      }, (tab) => {
-        if (chrome.runtime.lastError || !tab) {
-          console.error('Error creating scanner tab:', chrome.runtime.lastError);
-          alert('Could not open scanner tab. Please try again.');
+        state: 'minimized',
+        focused: false
+      }, (win) => {
+        if (chrome.runtime.lastError || !win) {
+          console.error('Error creating scanner window:', chrome.runtime.lastError);
+          alert('Could not open scanner window. Please try again.');
           return;
         }
         
-        chrome.storage.local.set({ 
-          activeTabId: tab.id
-        }, () => {
-          showStopButton();
-        });
+        // Retrieve tab ID inside window to track both
+        const getTabAndSave = () => {
+          chrome.tabs.query({ windowId: win.id }, (tabs) => {
+            const tabId = tabs && tabs[0] ? tabs[0].id : null;
+            chrome.storage.local.set({ 
+              activeWindowId: win.id,
+              activeTabId: tabId
+            }, () => {
+              showStopButton();
+            });
+          });
+        };
+
+        if (win.tabs && win.tabs.length > 0) {
+          chrome.storage.local.set({
+            activeWindowId: win.id,
+            activeTabId: win.tabs[0].id
+          }, () => {
+            showStopButton();
+          });
+        } else {
+          getTabAndSave();
+        }
       });
     });
   });
 
   // Stop Search Button
   elBtnStopSearch.addEventListener('click', () => {
-    chrome.storage.local.get(['activeTabId'], (data) => {
-      if (data.activeTabId) {
+    chrome.storage.local.get(['activeWindowId', 'activeTabId'], (data) => {
+      if (data.activeWindowId) {
+        chrome.windows.remove(data.activeWindowId, () => {
+          if (chrome.runtime.lastError) {
+            // Window might be already closed manually
+          }
+        });
+      } else if (data.activeTabId) {
         chrome.tabs.remove(data.activeTabId, () => {
           if (chrome.runtime.lastError) {
             // Tab might be already closed manually
           }
         });
       }
-      chrome.storage.local.set({ activeTabId: null }, () => {
+      chrome.storage.local.set({ activeWindowId: null, activeTabId: null }, () => {
         showStartButton();
       });
     });

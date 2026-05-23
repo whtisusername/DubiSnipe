@@ -5,6 +5,44 @@ let lastChimePlay = 0;
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const now = Date.now();
 
+  if (request.action === 'wafChallenge') {
+    chrome.storage.local.get(['activeWindowId'], (data) => {
+      const winId = data.activeWindowId || (sender.tab ? sender.tab.windowId : null);
+      if (winId) {
+        chrome.windows.update(winId, {
+          state: 'normal',
+          focused: true,
+          left: 100,
+          top: 100,
+          width: 1024,
+          height: 768
+        }, () => {
+          if (chrome.runtime.lastError) {
+            console.error('Error restoring scanner window:', chrome.runtime.lastError);
+          }
+        });
+      }
+    });
+    return;
+  }
+
+  if (request.action === 'wafSolved') {
+    chrome.storage.local.get(['activeWindowId'], (data) => {
+      const winId = data.activeWindowId || (sender.tab ? sender.tab.windowId : null);
+      if (winId) {
+        chrome.windows.update(winId, {
+          state: 'minimized',
+          focused: false
+        }, () => {
+          if (chrome.runtime.lastError) {
+            // Already minimized or closed
+          }
+        });
+      }
+    });
+    return;
+  }
+
   if (request.action === 'triggerNotification') {
     const { deals } = request;
     if (!deals || deals.length === 0) return;
