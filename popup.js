@@ -1,4 +1,4 @@
-// Dubizzle Snipe Pro — Popup Control Script (v1.0)
+// DubiSnipe — Popup Control Script (v1.0)
 
 document.addEventListener('DOMContentLoaded', () => {
   const $ = (id) => document.getElementById(id);

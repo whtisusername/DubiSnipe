@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Dubizzle Snipe Pro",
+  "name": "DubiSnipe",
   "version": "1.0.0",
-  "description": "Background deal alerts for Dubizzle UAE listings. Track keywords and get instant desktop notifications on matches.",
+  "description": "Real-time background deal alerts for Dubizzle UAE. Track keywords or custom links and get instant notifications on matches.",
   "permissions": [
     "storage",
     "notifications",
