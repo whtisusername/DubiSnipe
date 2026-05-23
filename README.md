@@ -10,12 +10,12 @@
 
 DubiSnipe is designed with two release flavors depending on how you prefer to handle Chrome window management:
 
-### 🌟 V1.1 (Latest / `main` branch) — Native Minimized Window & Auto-Sliding WAF Captcha
+### 🌟 V1.1 (Latest / `main` branch) - Native Minimized Window & Auto-Sliding WAF Captcha
 *   🚀 **Native Minimized Background Window**: On clicking **Start**, DubiSnipe launches a native, isolated browser window in a minimized state. It lives quietly in your Dock/Taskbar, completely out of your focus and sight.
 *   🛡️ **Auto-Sliding WAF Captcha handling**: If Dubizzle triggers an Imperva WAF challenge, DubiSnipe detects it instantly, restores the window back to active screen view `(100, 100)`, and alerts you to solve the Captcha. Once you solve it, the window **automatically slides back down** and minimizes into the Dock to continue scanning!
 *   ⚡ **Zero-Suspension Throttling Bypass**: Even when minimized, the scanner page forces a reload every 30 seconds, keeping the tab constantly active and avoiding background service suspension.
 
-### 🍃 V1.0 (Stable / `v1.0.0-stable` branch) — Standard Inactive Tab Scanner
+### 🍃 V1.0 (Stable / `v1.0.0-stable` branch) - Standard Inactive Tab Scanner
 *   🪶 **Standard Background Tab Scraper**: Opens a standard, inactive tab in your active browser window (`active: false`) which reloads every 30 seconds. Extremely simple, lightweight, and robust.
 *   🧩 **Manual Captcha Resolution**: If a Captcha occurs, you simply click on the background tab in your active browser window, solve it in 5 seconds, and let it go back to silent background scanning.
 
