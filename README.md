@@ -26,7 +26,7 @@ DubiSnipe is designed with two release flavors depending on how you prefer to ha
 *   💸 **Strict Price Parsing (No Installment False Positives)**: Uses a global regex context-aware inspector to parse card text. It checks a 30-character surrounding window for `/mo`, `finance`, or `installment` keywords to ignore monthly installments and capture only the real purchase price.
 *   🔊 **Custom Sound Alerts**: Plays your custom sound alert (`task_completed_sound_#2-1779533040830.mp3`) using a programmatic Chrome Offscreen context. If the file is ever missing, it falls back to a synthesized crystal chime.
 *   📋 **Unified Dashboard**: Displays all matched deals in a sleek, scrollable dark-mode dashboard inside the extension popup, sorted perfectly from **lowest to highest price** with single-click links to claim them.
-*   ☕ **Community-Supported (Free Edition)**: 100% free to use with a built-in donation panel to buy the developer a coffee.
+*   🆓 **100% Free & Open-Source**: Free to use with zero ads, tracking, or premium subscription paywalls.
 
 ---
 
@@ -65,10 +65,3 @@ Because Dubizzle UAE uses **Imperva WAF (Web Application Firewall)** to block au
 3.  **Solve the Handshake Captcha**: If a Captcha tab opens when you first start, solve it immediately. Once solved, Chrome saves a long-lived trust cookie that allows background scanning to run for hours uninterrupted.
 4.  **Avoid Multi-Scanning**: Do not open multiple background sniper tabs at the same time. Doing so doubles the request rate from your IP, flagging the WAF's rate limiters.
 
----
-
-## ☕ Support the Project
-
-If **DubiSnipe** helped you score an incredible deal or saved you thousands of dirhams on your next purchase, consider buying me a coffee to support continued development and maintenance!
-
-[💖 Buy Me a Coffee](https://buymeacoffee.com/dubisnipe)
