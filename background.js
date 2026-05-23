@@ -73,9 +73,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         ? `${topDeal.title}\nPrice: AED ${topDeal.price}`
         : `Found ${filteredNew.length} new matching deals! E.g. ${topDeal.title} (AED ${topDeal.price})`;
 
-      chrome.notifications.create(`deals-${Date.now()}`, {
+      const notificationOptions = {
         type: 'basic',
-        iconUrl: 'icon.png',
+        iconUrl: chrome.runtime.getURL('icon.png'),
         title: '🔥 New DubiSnipe Deals Found!',
         message: notificationMessage,
         contextMessage: 'DubiSnipe',
@@ -83,6 +83,31 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           { title: 'Open Latest Deal' }
         ],
         requireInteraction: true
+      };
+
+      chrome.notifications.create(`deals-${Date.now()}`, notificationOptions, (id) => {
+        if (chrome.runtime.lastError) {
+          console.warn('Rich notification failed, trying simple fallback:', chrome.runtime.lastError);
+          
+          // Try a clean fallback notification without buttons or requireInteraction
+          // (which can be rejected by macOS/Chrome native notification bridges)
+          const fallbackOptions = {
+            type: 'basic',
+            iconUrl: chrome.runtime.getURL('icon.png'),
+            title: '🔥 New DubiSnipe Deals Found!',
+            message: notificationMessage
+          };
+          
+          chrome.notifications.create(`deals-fallback-${Date.now()}`, fallbackOptions, (fallbackId) => {
+            if (chrome.runtime.lastError) {
+              console.error('All notification attempts failed:', chrome.runtime.lastError);
+            } else {
+              console.log('Fallback notification created successfully:', fallbackId);
+            }
+          });
+        } else {
+          console.log('Rich notification created successfully:', id);
+        }
       });
     });
   }
