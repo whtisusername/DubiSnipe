@@ -1,0 +1,10 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test scripts
+test_playwright.py
+
+# Python cache
+__pycache__/
+*.pyc

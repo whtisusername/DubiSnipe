@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Dubizzle Snipe Pro",
+  "version": "1.0.0",
+  "description": "Background deal alerts for Dubizzle UAE listings. Track keywords and get instant desktop notifications on matches.",
+  "permissions": [
+    "storage",
+    "notifications",
+    "offscreen",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://*.dubizzle.com/*",
+    "https://api.gumroad.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.dubizzle.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ]
+}

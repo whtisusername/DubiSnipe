@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dubizzle Snipe Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-area">
+        <div class="logo-pulse"></div>
+        <span class="logo-text">Dubizzle<span class="accent">Snipe</span></span>
+      </div>
+      <div id="tier-badge" class="badge pro">V1.1</div>
+    </header>
+
+    <main>
+      <section class="config-section">
+        <div class="input-group">
+          <label for="custom-url">Custom Dubizzle URL (Recommended)</label>
+          <input type="text" id="custom-url" placeholder="Paste a Dubizzle search page link with filters applied..." autocomplete="off" spellcheck="false">
+          <span style="font-size: 10px; color: #a1a1aa; margin-top: 3px; display: block; line-height: 1.2;">Apply your filters (location, model, condition, sort by newest) on Dubizzle.com, copy the URL and paste it here!</span>
+        </div>
+
+        <div class="divider" style="margin: 12px 0; border-top: 1px dashed #3f3f46; position: relative; text-align: center;">
+          <span style="position: absolute; top: -7px; left: 50%; transform: translateX(-50%); background: #18181b; padding: 0 8px; font-size: 9px; color: #71717a; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Or use text search</span>
+        </div>
+
+        <div id="keyword-group" class="input-group">
+          <label for="keyword">Search Keyword</label>
+          <input type="text" id="keyword" placeholder="e.g. sennheiser headphones" autocomplete="off" spellcheck="false">
+        </div>
+
+        <div id="price-group" class="grid-2">
+          <div class="input-group">
+            <label for="min-price">Min Price (AED)</label>
+            <input type="number" id="min-price" placeholder="0" min="0">
+          </div>
+          <div class="input-group">
+            <label for="max-price">Target Price (AED)</label>
+            <input type="number" id="max-price" placeholder="Max Price" min="0">
+          </div>
+        </div>
+
+        <button id="btn-start-search" class="btn-primary" style="width: 100%; margin-top: 15px; padding: 12px; background: #10b981; color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s;">Start Background Sniper</button>
+        <button id="btn-stop-search" class="btn-primary" style="width: 100%; margin-top: 15px; padding: 12px; background: #ef4444; color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; display: none; transition: background 0.2s;">Stop Active Sniper</button>
+      </section>
+
+      <div class="deals" id="dealsSection" style="display: none; margin-top: 15px;">
+        <div class="deals-title" style="font-size: 11px; font-weight: 700; color: #10b981; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">🎉 Found Deals</div>
+        <div id="dealsList"></div>
+      </div>
+    </main>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
