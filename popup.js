@@ -126,10 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
         targetUrl += `&sniper=true`;
       }
 
-      // Launch native minimized scanner window
+      // Launch native scanner window (normal state to force immediate load) and minimize in the callback
       chrome.windows.create({
         url: targetUrl,
-        state: 'minimized',
+        state: 'normal',
         focused: false
       }, (win) => {
         if (chrome.runtime.lastError || !win) {
@@ -137,6 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
           alert('Could not open scanner window. Please try again.');
           return;
         }
+
+        // Minimize immediately to the Dock so it runs quietly in the background
+        chrome.windows.update(win.id, { state: 'minimized' });
         
         // Retrieve tab ID inside window to track both
         const getTabAndSave = () => {
