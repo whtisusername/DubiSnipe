@@ -5,6 +5,27 @@ let lastChimePlay = 0;
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const now = Date.now();
 
+  if (request.action === 'scannerStarted') {
+    const winId = sender.tab ? sender.tab.windowId : null;
+    if (winId) {
+      chrome.windows.update(winId, {
+        state: 'minimized',
+        focused: false
+      }, () => {
+        if (chrome.runtime.lastError) {
+          // Already minimized or closed
+        }
+      });
+    }
+    chrome.storage.local.set({ status: request.status || 'Scanning active...' });
+    return;
+  }
+
+  if (request.action === 'scannerUpdate') {
+    chrome.storage.local.set({ status: request.status });
+    return;
+  }
+
   if (request.action === 'wafChallenge') {
     chrome.storage.local.get(['activeWindowId'], (data) => {
       const winId = data.activeWindowId || (sender.tab ? sender.tab.windowId : null);
@@ -23,6 +44,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
       }
     });
+    chrome.storage.local.set({ status: request.status || '⚠️ WAF Check detected! Solve Captcha in the popped window.' });
     return;
   }
 
@@ -40,6 +62,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
       }
     });
+    chrome.storage.local.set({ status: request.status || '✅ Captcha solved! Minimizing and resuming scans...' });
     return;
   }
 
@@ -136,6 +159,39 @@ chrome.notifications.onClicked.addListener((notificationId) => {
     });
   }
   chrome.notifications.clear(notificationId);
+});
+
+// --- Scanner lifecycle cleanup (v1.2) ---
+// If the scanner window/tab goes away, whether closed manually, killed by the WAF, or
+// discarded by Chrome, clear the stored "active" state. Without this the popup
+// keeps showing the Stop button and a stale "Scanning..." status while nothing
+// is actually running, which reads exactly like "the extension stopped working."
+function resetScannerState(statusMsg) {
+  chrome.storage.local.set({
+    activeWindowId: null,
+    activeTabId: null,
+    status: statusMsg || 'Idle. Ready to start.'
+  });
+  chrome.action.setBadgeText({ text: '' });
+}
+
+chrome.windows.onRemoved.addListener((closedWindowId) => {
+  chrome.storage.local.get(['activeWindowId'], (data) => {
+    if (data.activeWindowId && data.activeWindowId === closedWindowId) {
+      resetScannerState('⏹️ Scanner window closed. Ready to start again.');
+    }
+  });
+});
+
+chrome.tabs.onRemoved.addListener((closedTabId) => {
+  chrome.storage.local.get(['activeTabId', 'activeWindowId'], (data) => {
+    // Only act on a bare tab close (V1.0-style). A whole-window close is handled
+    // above and also fires tab removals, so the activeWindowId guard avoids a
+    // double reset.
+    if (data.activeTabId && data.activeTabId === closedTabId && !data.activeWindowId) {
+      resetScannerState('⏹️ Scanner tab closed. Ready to start again.');
+    }
+  });
 });
 
 async function playChimeSound() {

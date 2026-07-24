@@ -2,6 +2,10 @@
 .DS_Store
 Thumbs.db
 
+# Organized directories (unrelated to DubiSnipe)
+Lab9_CSIT314/
+TV_Casting/
+
 # Test scripts
 test_playwright.py
 

@@ -51,6 +51,12 @@
         <button id="btn-stop-search" class="btn-primary" style="width: 100%; margin-top: 15px; padding: 12px; background: #ef4444; color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; display: none; transition: background 0.2s;">Stop Active Sniper</button>
       </section>
 
+      <!-- Live Status Panel -->
+      <div class="status-panel" style="margin-top: 15px; padding: 12px; background: rgba(255, 255, 255, 0.02); border: 1px solid #27272a; border-radius: 8px; display: flex; flex-direction: column; gap: 4px;">
+        <div style="font-size: 9px; font-weight: 700; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.5px;">Scanner Status</div>
+        <div id="scanner-status" style="font-size: 11px; color: #f4f4f5; font-family: monospace; line-height: 1.4; word-break: break-all;">Idle. Ready to start.</div>
+      </div>
+
       <div class="deals" id="dealsSection" style="display: none; margin-top: 15px;">
         <div class="deals-title" style="font-size: 11px; font-weight: 700; color: #10b981; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">🎉 Found Deals</div>
         <div id="dealsList"></div>

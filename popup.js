@@ -1,4 +1,4 @@
-// DubiSnipe — Popup Control Script (v1.0)
+// DubiSnipe Popup Control Script (v1.0)
 
 document.addEventListener('DOMContentLoaded', () => {
   const $ = (id) => document.getElementById(id);
@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elMaxPrice.value = settings.maxPrice || '';
 
     renderDeals(settings.foundDeals || []);
+    $('scanner-status').textContent = settings.status || 'Idle. Ready to start.';
 
     // Check active state of background tab safely using chrome.windows.get or chrome.tabs.get
     if (settings.activeWindowId) {
@@ -101,9 +102,11 @@ document.addEventListener('DOMContentLoaded', () => {
       minPrice: minPrice,
       maxPrice: maxPrice,
       foundDeals: [],
-      notifiedIds: []
+      notifiedIds: [],
+      emptyScanStreak: 0
     }, () => {
       renderDeals([]);
+      chrome.action.setBadgeText({ text: '' });
 
       // Determine Scrape URL
       let targetUrl = '';
@@ -126,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         targetUrl += `&sniper=true`;
       }
 
-      // Launch native scanner window (normal state to force immediate load) and minimize in the callback
+      // Launch native scanner window (normal state to force immediate load)
       chrome.windows.create({
         url: targetUrl,
         state: 'normal',
@@ -138,8 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        // Minimize immediately to the Dock so it runs quietly in the background
-        chrome.windows.update(win.id, { state: 'minimized' });
+        chrome.storage.local.set({ status: 'Starting background scanner window...' });
         
         // Retrieve tab ID inside window to track both
         const getTabAndSave = () => {
@@ -197,7 +199,14 @@ document.addEventListener('DOMContentLoaded', () => {
       renderDeals(changes.foundDeals.newValue || []);
     }
     if (changes.activeTabId) {
-      if (!changes.activeTabId.newValue) showStartButton();
+      if (!changes.activeTabId.newValue) {
+        // Background's lifecycle cleanup already sets an appropriate status
+        // message; just flip the UI back to the Start state here.
+        showStartButton();
+      }
+    }
+    if (changes.status) {
+      $('scanner-status').textContent = changes.status.newValue || 'Idle. Ready to start.';
     }
   });
 

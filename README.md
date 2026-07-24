@@ -6,6 +6,14 @@
 
 ---
 
+## 🆕 What's New in V1.2
+*   🩹 **Reliable Stop/Start State**: The popup now always reflects reality. If the background scanner window is closed (manually, by a WAF block, or by Chrome discarding it), the extension detects it, resets cleanly, and shows the Start button again instead of getting stuck on a fake "Scanning..." state.
+*   🚨 **Broken-Scraper Detection**: If the scanner extracts **0 listings several cycles in a row** (a sign Dubizzle changed its page layout or you're being soft-blocked), the status panel now warns you explicitly, instead of silently reporting "0 matches" forever.
+*   📟 **Live Status Panel**: A real-time scanner status readout in the popup showing scan counts, timestamps, and captcha/WAF prompts.
+*   🧹 **Tidy Permissions**: Removed an unused host permission to keep the extension's footprint minimal.
+
+---
+
 ## ✨ Features & Architecture Modes
 
 DubiSnipe is designed with two release flavors depending on how you prefer to handle Chrome window management:
