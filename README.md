@@ -40,16 +40,25 @@ DubiSnipe is designed with two release flavors depending on how you prefer to ha
 
 ## 🛠️ Installation Guide
 
-1.  **Clone or Download this Repository**:
-    *   Click **Code > Download ZIP** or clone this repo to your local machine:
-        ```bash
-        git clone https://github.com/whtisusername/dubisnipe.git
-        ```
-2.  **Load the Extension in Google Chrome**:
-    *   Open Chrome and go to `chrome://extensions/`.
-    *   Enable **Developer mode** using the toggle switch in the top-right corner.
-    *   Click **Load unpacked** in the top-left corner.
-    *   Select the folder containing this extension's code.
+DubiSnipe is not on the Chrome Web Store. It installs as an **unpacked extension**, which takes about 30 seconds.
+
+### ⭐ Recommended: Install from Release (for everyone)
+
+1.  **Download the extension**: Go to the [**latest release**](https://github.com/whtisusername/DubiSnipe/releases/latest) and, under **Assets**, download **`DubiSnipe-v1.2.0.zip`** ([direct download](https://github.com/whtisusername/DubiSnipe/releases/latest/download/DubiSnipe-v1.2.0.zip)).
+2.  **Unzip it**: Double-click the downloaded `.zip`. You'll get a folder named **`DubiSnipe`** containing the extension.
+3.  **Open the extensions page**: In Chrome, go to `chrome://extensions/`.
+4.  **Enable Developer mode**: Toggle it **on** using the switch in the top-right corner.
+5.  **Load it**: Click **Load unpacked** (top-left) and select the unzipped **`DubiSnipe`** folder.
+6.  **Pin it**: Click the puzzle-piece 🧩 icon in the toolbar and pin **DubiSnipe** so the 🎯 icon is always visible.
+
+> **Note:** Keep the unzipped `DubiSnipe` folder somewhere permanent (e.g. your Documents). Chrome loads the extension *from that folder*, so if you delete or move it, the extension stops working. To update later, download the newer release and repeat, or click the ↻ reload icon on the DubiSnipe card in `chrome://extensions/`.
+
+### 🧑‍💻 Alternative: Install from Source (for developers)
+
+```bash
+git clone https://github.com/whtisusername/DubiSnipe.git
+```
+Then follow steps 3–6 above, selecting the cloned **`DubiSnipe`** repository folder in the **Load unpacked** step.
 
 ---
 
